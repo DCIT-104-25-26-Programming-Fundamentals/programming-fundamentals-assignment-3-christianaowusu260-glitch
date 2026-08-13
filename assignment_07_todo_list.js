@@ -75,6 +75,71 @@
 // - Each feature MUST be implemented in its own function (see scaffold below).
 // - Handle invalid menu choices gracefully (print an error, do not crash).
 // - To remove an item from an array by index, use: tasks.splice(index, 1)
+
+const readlineSync = require("readline-sync");
+
+let tasks = [];
+
+function showMenu() {
+  console.log("\n============================");
+  console.log("     TO-DO LIST MENU");
+  console.log("============================");
+  console.log("1. Add task");
+  console.log("2. View tasks");
+  console.log("3. Delete task");
+  console.log("4. Quit");
+}
+
+function addTask() {
+  const task = readlineSync.question("Enter task: ").trim();
+  if (task === "") {
+    console.log("Task description cannot be empty.");
+    return;
+  }
+  tasks.push(task);
+  console.log(`Task added: "${task}"`);
+}
+
+function viewTasks() {
+  if (tasks.length === 0) {
+    console.log("Your to-do list is empty.");
+    return;
+  }
+  console.log("Your Tasks:");
+  tasks.forEach((task, index) => console.log(`${index + 1}. ${task}`));
+}
+
+function deleteTask() {
+  if (tasks.length === 0) {
+    console.log("There are no tasks to delete.");
+    return;
+  }
+  viewTasks();
+  const taskNumber = Number(readlineSync.question("Enter task number to delete: "));
+  if (!Number.isInteger(taskNumber) || taskNumber < 1 || taskNumber > tasks.length) {
+    console.log("Invalid task number. Please try again.");
+    return;
+  }
+  const removedTask = tasks.splice(taskNumber - 1, 1)[0];
+  console.log(`Task "${removedTask}" has been removed.`);
+}
+
+function runTodoList() {
+  let isRunning = true;
+  while (isRunning) {
+    showMenu();
+    const choice = readlineSync.question("Enter your choice (1-4): ").trim();
+    switch (choice) {
+      case "1": addTask(); break;
+      case "2": viewTasks(); break;
+      case "3": deleteTask(); break;
+      case "4": console.log("Goodbye!"); isRunning = false; break;
+      default: console.log("Invalid choice. Please enter a number from 1 to 4.");
+    }
+  }
+}
+
+runTodoList();
 //
 //
 // =============================================================================
