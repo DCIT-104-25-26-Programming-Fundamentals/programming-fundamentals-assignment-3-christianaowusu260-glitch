@@ -1,4 +1,5 @@
 // =============================================================================
+
 // PROGRAMMING FUNDAMENTALS — Assignment 6
 // =============================================================================
 //
@@ -53,6 +54,52 @@
 //   print an error message and stop.
 // - Each part must be in its own function (see scaffold below).
 // - Complete Part A before attempting Part B.
+
+const readlineSync = require("readline-sync");
+
+// Part A: print one multiplication table from 1 through 12.
+function printMultiplicationTable(number) {
+    console.log("Multiplication Table for " + number + ":");
+
+    for (let multiplier = 1; multiplier <= 12; multiplier++) {
+        console.log(number + " x " + multiplier + " = " + (number * multiplier));
+    }
+}
+
+// Part B: print multiplication tables for every number from 1 through n.
+function printTablesUpTo(n) {
+    for (let number = 1; number <= n; number++) {
+        printMultiplicationTable(number);
+
+        if (number < n) {
+            console.log("---------------------------");
+        }
+    }
+}
+
+function getPositiveInteger(prompt) {
+    const input = readlineSync.question(prompt).trim();
+    const number = Number(input);
+
+    if (input === "" || !Number.isInteger(number) || number <= 0) {
+        console.log("Error: please enter a positive integer.");
+        return null;
+    }
+
+    return number;
+}
+
+const tableNumber = getPositiveInteger("Enter a number for its multiplication table: ");
+
+if (tableNumber !== null) {
+    printMultiplicationTable(tableNumber);
+
+    const maximumNumber = getPositiveInteger("Enter N to print tables from 1 to N: ");
+
+    if (maximumNumber !== null) {
+        printTablesUpTo(maximumNumber);
+    }
+}
 
 //
 // =============================================================================
